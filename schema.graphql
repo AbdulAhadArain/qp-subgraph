@@ -1,0 +1,196 @@
+type Upgraded @entity(immutable: true) {
+  id: Bytes!
+  implementation: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+type AdminSet @entity(immutable: true) {
+  id: Bytes!
+  admin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type FinalizedBlock @entity(immutable: true) {
+  id: Bytes!
+  remoteChainId: BigInt! # uint256
+  blockNonce: BigInt! # uint256
+  timestamp: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type FinalizedInvalidBlock @entity(immutable: true) {
+  id: Bytes!
+  remoteChainId: BigInt! # uint256
+  blockNonce: BigInt! # uint256
+  timestamp: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type FinalizedSnapshot @entity(immutable: true) {
+  id: Bytes!
+  remoteChainId: BigInt! # uint256
+  startBlockNonce: BigInt! # uint256
+  endBlockNonce: BigInt! # uint256
+  finalizers: [Bytes!]! # address[]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Initialized @entity(immutable: true) {
+  id: Bytes!
+  version: BigInt! # uint64
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type LocalBlockCreated @entity(immutable: true) {
+  id: Bytes!
+  remoteChainId: BigInt! # uint64
+  nonce: BigInt! # uint64
+  timestamp: BigInt! # uint64
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type MinedBlockCreated @entity(immutable: true) {
+  id: Bytes!
+  blockHash: Bytes! # bytes32
+  miner: Bytes! # address
+  stake: BigInt! # uint256
+  totalValue: BigInt! # uint256
+  blockMetadata_chainId: BigInt! # uint64
+  blockMetadata_nonce: BigInt! # uint64
+  blockMetadata_timestamp: BigInt! # uint64
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RemoteTransactionRegistered @entity(immutable: true) {
+  id: Bytes!
+  timestamp: BigInt! # uint64
+  remoteContract: Bytes! # address
+  sourceMsgSender: Bytes! # address
+  sourceBeneficiary: Bytes! # address
+  token: Bytes! # address
+  amount: BigInt! # uint256
+  method: Bytes! # bytes
+  gas: BigInt! # uint256
+  fixedFee: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type QuantumPortalLedgerMgrImplUpgradeableUpgraded @entity(immutable: true) {
+  id: Bytes!
+  implementation: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Block @entity(immutable: true) {
+  id: String!
+  hash: Bytes!
+  parentHash: Bytes!
+  unclesHash: Bytes
+  author: Bytes!
+  stateRoot: Bytes
+  transactionsRoot: Bytes
+  receiptsRoot: Bytes
+  number: BigInt!
+  gasUsed: BigInt!
+  gasLimit: BigInt!
+  timestamp: BigInt!
+  difficulty: BigInt
+  totalDifficulty: BigInt
+  size: BigInt
+  baseFeePerGas: BigInt
+}
+
+type Transaction @entity {
+  id: Bytes! # Transaction hash (unique identifier)
+  hash: Bytes! # Transaction hash (same as id)
+  from: Account! # Sender address
+  to: Account # Receiver address (if any)
+  value: BigInt # Value sent with the transaction (in wei)
+  gasPrice: BigInt! # Gas price the sender is willing to pay
+  gasLimit: BigInt! # Maximum gas limit the sender is willing to use
+  nonce: BigInt! # Sender’s nonce for the transaction
+  inputData: Bytes! # Input data for contract calls or deployment
+  decodedInput: DecodedInput! # Decoded input data
+  block: Block! # Link to the block entity
+  timestamp: BigInt! # Timestamp when the transaction was included
+  transactionReceipt: TransactionReceipt! @derivedFrom(field: "transaction") # Link to the receipt
+}
+
+type TransactionReceipt @entity {
+  id: Bytes! # Same as the transaction hash
+  status: BigInt # Transaction status: true for success, false for failure
+  transaction: Transaction! # Link to the transaction entity
+  blockHash: Bytes! # Block hash where the transaction was included
+  blockNumber: BigInt! # Block number where the transaction was included
+  gasUsed: BigInt # Total gas used by the transaction
+  logs: [Log!]
+  cumulativeGasUsed: BigInt # Total gas used in the block up to this transaction
+  contractAddress: Bytes # Contract address if it was a contract creation transaction
+  root: Bytes
+  logsBloom: Bytes
+}
+
+type Log @entity {
+  id: Bytes! # Log index within the transaction
+  transactionReceipt: TransactionReceipt! # Link to the transaction receipt entity
+  address: Bytes! # Address of the contract that emitted the log
+  data: Bytes! # Data associated with the log
+  topics: [Bytes!]! # Topics associated with the log (indexed event parameters)
+  blockHash: Bytes
+  blockNumber: Bytes
+  transactionHash: Bytes
+  transactionIndex: BigInt
+  logIndex: BigInt
+  transactionLogIndex: BigInt
+  logType: String
+  removed: Boolean
+}
+
+type Account @entity {
+  id: Bytes! # Account address (unique identifier)
+  balance: BigInt! # Account balance (in wei)
+  isContract: Boolean! # True if the account is a contract
+  # transactions: [Transaction!]! @derivedFrom(field: "from")
+  # transactionsReceived: [Transaction!]! @derivedFrom(field: "to")
+}
+
+type DecodedInput @entity {
+  id: Bytes! # Transaction hash
+  method: String! # Method name
+  parameters: [String!]
+  parametersTypes: [String!]
+  parametersValues: [String!] # Method parameters
+}
+
+# type Parameters @entity {
+#   id: Bytes!
+#   metadata: String! # Store JSON-like key-value data as a string
+# }

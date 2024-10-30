@@ -1,0 +1,53 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: 1000000
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: QuantumPortalLedgerMgrImplUpgradeable
+    network: arbitrum-one
+    source:
+      address: "0x3e9316b40Bc5e676521B1DA04F4a8dF342E76FcB"
+      abi: QuantumPortalLedgerMgrImplUpgradeable
+      startBlock: 252403272
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - AdminSet
+        - FinalizedBlock
+        - FinalizedInvalidBlock
+        - FinalizedSnapshot
+        - Initialized
+        - LocalBlockCreated
+        - MinedBlockCreated
+        - OwnershipTransferred
+        - RemoteTransactionRegistered
+        - QuantumPortalLedgerMgrImplUpgradeableUpgraded
+      abis:
+        - name: QuantumPortalLedgerMgrImplUpgradeable
+          file: ./abis/QuantumPortalLedgerMgrImplUpgradeable.json
+      eventHandlers:
+        - event: AdminSet(address)
+          handler: handleAdminSet
+        - event: FinalizedBlock(uint256,uint256,uint256)
+          handler: handleFinalizedBlock
+        - event: FinalizedInvalidBlock(uint256,uint256,uint256)
+          handler: handleFinalizedInvalidBlock
+        - event: FinalizedSnapshot(uint256,uint256,uint256,address[])
+          handler: handleFinalizedSnapshot
+        - event: Initialized(uint64)
+          handler: handleInitialized
+        - event: LocalBlockCreated(uint64,uint64,uint64)
+          handler: handleLocalBlockCreated
+        - event: MinedBlockCreated(bytes32,address,uint256,uint256,(uint64,uint64,uint64))
+          handler: handleMinedBlockCreated
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: RemoteTransactionRegistered(uint64,address,address,address,address,uint256,bytes,uint256,uint256)
+          handler: handleRemoteTransactionRegistered
+        - event: Upgraded(indexed address)
+          handler: handleUpgraded
+      file: ./src/quantum-portal-ledger-mgr-impl-upgradeable.ts
