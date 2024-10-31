@@ -5,7 +5,7 @@
       "startBlock": 252403272
     },
     "QuantumPortalLedgerMgrImplUpgradeable": {
-      "address": "0x9ac2e992d85d5711210b0714f126e9495a89e883"
+      "address": "0x3e9316b40Bc5e676521B1DA04F4a8dF342E76FcB"
     }
   },
   "bsc": {
@@ -14,16 +14,17 @@
       "startBlock": 252403272
     },
     "QuantumPortalLedgerMgrImplUpgradeable": {
-      "address": "0x9ac2e992d85d5711210b0714f126e9495a89e883"
+      "address": "0x3e9316b40Bc5e676521B1DA04F4a8dF342E76FcB"
     }
   },
   "base": {
     "ERC1967Proxy": {
       "address": "0x3e9316b40Bc5e676521B1DA04F4a8dF342E76FcB",
-      "startBlock": 252403272
+      "startBlock": 19636917
     },
     "QuantumPortalLedgerMgrImplUpgradeable": {
-      "address": "0x9ac2e992d85d5711210b0714f126e9495a89e883"
+      "address": "0x3e9316b40Bc5e676521B1DA04F4a8dF342E76FcB",
+      "startBlock": 19636917
     }
   }
 }

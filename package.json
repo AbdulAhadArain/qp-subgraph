@@ -1,13 +1,16 @@
 {
-  "name": "cron-arb-v1",
+  "name": "test",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ cron-arb-v1",
-    "create-local": "graph create --node http://localhost:8020/ cron-arb-v1",
-    "remove-local": "graph remove --node http://localhost:8020/ cron-arb-v1",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 cron-arb-v1",
+    "build:arbitrum": "graph build --network arbitrum-one",
+    "build:base": "graph build --network base",
+    "deploy:arbitrum": "graph deploy --node https://api.studio.thegraph.com/deploy/ qp-arbitrum",
+    "deploy:base": "graph deploy --node https://api.studio.thegraph.com/deploy/ qp-base",
+    "create-local": "graph create --node http://localhost:8020/ test",
+    "remove-local": "graph remove --node http://localhost:8020/ test",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 test",
     "test": "graph test"
   },
   "dependencies": {
@@ -15,6 +18,7 @@
     "@graphprotocol/graph-ts": "0.35.1"
   },
   "devDependencies": {
-    "matchstick-as": "^0.5.0"
+    "matchstick-as": "^0.5.0",
+    "mustache": "^4.2.0"
   }
 }
